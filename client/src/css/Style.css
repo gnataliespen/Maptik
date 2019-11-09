@@ -1,0 +1,13 @@
+#menu {
+  background: purple;
+  border-radius: 0px;
+}
+#login-item {
+  padding-left: 60vw;
+}
+#login-body {
+  padding: 5px;
+}
+#primary {
+  margin: 10px;
+}
