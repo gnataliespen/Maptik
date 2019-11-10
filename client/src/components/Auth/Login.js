@@ -1,9 +1,21 @@
 import React from "react";
 import { GoogleLogin } from "react-google-login";
+import api from "../../util/apiConnection";
+import setAuthToken from "../../util/setAuthToken";
+
 const Login = () => {
-  const onSuccess = googleUser => {
+  const onSuccess = async googleUser => {
     const idToken = googleUser.getAuthResponse().id_token;
-    console.log(idToken);
+    setAuthToken(idToken);
+    try {
+      let user = await api.get("/auth/google");
+      console.log(user);
+    } catch (err) {
+      console.log(err);
+      if (err.response) {
+        console.log(err.response);
+      }
+    }
   };
   return (
     <GoogleLogin
