@@ -17,12 +17,21 @@ exports.createPin = async (req, res) => {
   if (image) newPin.image = image;
   if (description) newPin.description = description;
   try {
-    let pin = await Pin.create(newPin);
-    if (pin.author) {
-      await pin.populate("author");
-    }
-    return res.send(pin);
+    //Create pin
+    const pin = await Pin.create(newPin);
+    return res.status(200).json(pin);
   } catch (err) {
     res.status(500).json({ msg: "Could not create pin at this time" });
+  }
+};
+
+exports.getPins = async (req, res) => {
+  try {
+    const pins = await Pin.find()
+      .populate("author")
+      .populate("comments.author");
+    res.status(200).json(pins);
+  } catch (err) {
+    console.log(err);
   }
 };

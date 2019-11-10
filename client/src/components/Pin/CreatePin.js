@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { Form, Icon, Button, Image } from "semantic-ui-react";
 import Context from "../../state/context";
-import { CLEAR_DRAFT } from "../../state/types";
+import { CLEAR_DRAFT, CREATE_PIN } from "../../state/types";
 import api from "../../util/apiConnection";
 import axios from "axios";
 
@@ -49,10 +49,10 @@ const CreatePin = () => {
       }
     }
     try {
-      const pin = await api.post("/pin/create", newPin);
+      let pin = await api.post("/pins/create", newPin);
       console.log(pin);
       setForm(intialForm);
-      dispatch({ type: CLEAR_DRAFT });
+      dispatch({ type: CREATE_PIN, payload: pin.data });
     } catch (err) {
       console.log(err);
     }

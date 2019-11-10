@@ -7,6 +7,7 @@ import {
   UPDATE_DRAFT,
   CLEAR_DRAFT,
   CREATE_PIN,
+  GET_PINS,
 } from "./types";
 export default (state, action) => {
   const { type, payload } = action;
@@ -16,6 +17,19 @@ export default (state, action) => {
         ...state,
         currentUser: payload,
         isAuth: true,
+      };
+    case CLEAR_USER:
+      return {
+        ...state,
+        currentUser: null,
+        isAuth: false,
+      };
+    case LOGIN_FAIL:
+    case LOGOUT:
+      return {
+        ...state,
+        currentUser: null,
+        isAuth: false,
       };
     case CREATE_DRAFT:
       return {
@@ -35,19 +49,19 @@ export default (state, action) => {
         ...state,
         draft: null,
       };
-    case CLEAR_USER:
+    case CREATE_PIN: {
       return {
         ...state,
-        currentUser: null,
-        isAuth: false,
+        draft: null,
+        pins: [...state.pins, payload],
       };
-    case LOGIN_FAIL:
-    case LOGOUT:
+    }
+    case GET_PINS: {
       return {
         ...state,
-        currentUser: null,
-        isAuth: false,
+        pins: [...payload],
       };
+    }
     default:
       return state;
   }

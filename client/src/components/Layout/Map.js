@@ -4,8 +4,10 @@ import { Icon } from "semantic-ui-react";
 import "mapbox-gl/dist/mapbox-gl.css";
 
 import Context from "../../state/context";
-import { CREATE_DRAFT, UPDATE_DRAFT } from "../../state/types";
+import { CREATE_DRAFT, UPDATE_DRAFT, GET_PINS } from "../../state/types";
 import Blog from "./Blog";
+import api from "../../util/apiConnection";
+import { differenceInMinutes, isDate } from "date-fns";
 
 const initialViewport = {
   latitude: 30.267153,
@@ -26,7 +28,13 @@ const Map = () => {
     };
     getUserPosition();
   }, [viewport]);
-
+  useEffect(() => {
+    const getPins = async () => {
+      const pins = await api.get("/pins");
+      dispatch({ type: GET_PINS, payload: pins.data });
+    };
+    getPins();
+  }, []);
   const handleMapClick = ({ lngLat, leftButton }) => {
     if (!leftButton) return;
     const [longitude, latitude] = lngLat;
@@ -35,6 +43,11 @@ const Map = () => {
       dispatch({ type: CREATE_DRAFT });
     }
     dispatch({ type: UPDATE_DRAFT, payload: { longitude, latitude } });
+  };
+  const highlightNew = pin => {
+    const date = new Date(pin.createdAt);
+    const isNew = differenceInMinutes(Date.now(), Number(date)) <= 30;
+    return isNew ? "green" : "purple";
   };
   return (
     <div className="map-container">
@@ -61,6 +74,17 @@ const Map = () => {
             <Icon name="map pin" size="big" color="pink" />
           </Marker>
         )}
+        {state.pins.map(pin => (
+          <Marker
+            key={pin._id}
+            latitude={pin.latitude}
+            longitude={pin.longitude}
+            offsetLeft={-19}
+            offsetTop={-37}
+          >
+            <Icon name="map pin" size="big" color={highlightNew(pin)} />
+          </Marker>
+        ))}
       </ReactMapGl>
       <Blog />
     </div>

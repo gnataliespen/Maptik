@@ -4,5 +4,6 @@ const controller = require("../controllers/pinController.js");
 const auth = require("../middleware/auth");
 
 router.post("/create", auth, controller.createPin);
+router.get("/", controller.getPins);
 
 module.exports = router;

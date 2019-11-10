@@ -22,7 +22,7 @@ app.use(cors());
 //Define Routes
 app.use("/", indexRouter);
 app.use("/auth", authRouter);
-app.use("/pin", pinRouter);
+app.use("/pins", pinRouter);
 
 const { port } = require("./config/config");
 
