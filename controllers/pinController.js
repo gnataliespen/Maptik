@@ -38,13 +38,14 @@ exports.getPins = async (req, res) => {
 exports.deletePin = async (req, res) => {
   try {
     if (!req.user) return res.status(401).json({ msg: "Not Authorized" });
-    const pin = await Pin.findById(req.body._id);
-    if (pin.author._id !== req.user._id)
+    const pin = await Pin.findById(req.params.id);
+    let user = await User.findOne({ email: req.user.email });
+    if (`${pin.author}` !== `${user._id}`)
       return res.status(401).json({ msg: "Not Authorized" });
     await pin.remove();
     return res.status(200).json({ msg: "Deleted pin" });
-    console.log(req.body._id);
   } catch (err) {
     console.log(err);
+    res.status(500).json({ msg: "Could not delete pin at this time" });
   }
 };

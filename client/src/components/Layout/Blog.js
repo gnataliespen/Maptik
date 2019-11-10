@@ -4,7 +4,8 @@ import Context from "../../state/context";
 import CreatePin from "../Pin/CreatePin";
 import { Sidebar, Icon, Button } from "semantic-ui-react";
 import PinContent from "../Pin/PinContent";
-import { CLEAR_PIN, CLEAR_DRAFT } from "../../state/types";
+import { CLEAR_PIN, CLEAR_DRAFT, DELETE_PIN } from "../../state/types";
+import api from "../../util/apiConnection";
 const Blog = () => {
   const { state, dispatch } = useContext(Context);
   const { draft, currentPin, currentUser } = state;
@@ -14,6 +15,15 @@ const Blog = () => {
     !draft && currentPin
       ? dispatch({ type: CLEAR_PIN })
       : dispatch({ type: CLEAR_DRAFT });
+  };
+
+  const handleDelete = async () => {
+    try {
+      await api.delete(`/pins/delete/${currentPin._id}`);
+      dispatch({ type: DELETE_PIN, payload: currentPin._id });
+    } catch (err) {
+      console.log(err);
+    }
   };
   return (
     <Sidebar
@@ -31,7 +41,7 @@ const Blog = () => {
           currentPin &&
           currentPin.author &&
           currentUser._id === currentPin.author._id && (
-            <Button color="red" className="delete">
+            <Button color="red" className="delete" onClick={handleDelete}>
               Delete Pin
             </Button>
           )}

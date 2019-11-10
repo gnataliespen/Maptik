@@ -10,6 +10,7 @@ import {
   GET_PINS,
   SET_PIN,
   CLEAR_PIN,
+  DELETE_PIN,
 } from "./types";
 export default (state, action) => {
   const { type, payload } = action;
@@ -73,10 +74,18 @@ export default (state, action) => {
       };
     }
     case CLEAR_PIN: {
-      console.log("reduce");
       return {
         ...state,
         currentPin: null,
+      };
+    }
+    case DELETE_PIN: {
+      let newPins = state.pins.filter(pin => pin._id !== payload);
+      console.log(newPins);
+      return {
+        ...state,
+        currentPin: null,
+        pins: newPins,
       };
     }
     default:

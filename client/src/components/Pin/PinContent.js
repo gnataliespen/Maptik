@@ -22,7 +22,7 @@ const PinContent = () => {
         {author ? author.name : "Anonymous"}
       </h3>
       <h4 className="pin-heading">
-        <Icon name="clock" /> {format(date, "MMM Do, yyyy")}
+        <Icon name="clock" /> {format(date, "MMM, do, yyyy")}
       </h4>
       {description && <p>{description}</p>}
     </div>
