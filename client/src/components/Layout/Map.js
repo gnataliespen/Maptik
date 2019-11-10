@@ -37,10 +37,11 @@ const Map = () => {
     dispatch({ type: UPDATE_DRAFT, payload: { longitude, latitude } });
   };
   return (
-    <div>
+    <div className="map-container">
       <ReactMapGl
+        id="map"
         width="100%"
-        height="95vh"
+        height="calc(100vh - 68px)"
         mapStyle="mapbox://styles/mapbox/streets-v9"
         mapboxApiAccessToken="pk.eyJ1IjoiZ25hdGFsaWUiLCJhIjoiY2syc2JibzMwMHl4MzNvbnZxdGE4eThnYiJ9.Y4atD9eDNRJ9FDyPnUmGdQ"
         onViewportChange={newViewport => setViewport(newViewport)}

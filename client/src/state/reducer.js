@@ -5,6 +5,7 @@ import {
   LOGOUT,
   CREATE_DRAFT,
   UPDATE_DRAFT,
+  CLEAR_DRAFT,
 } from "./types";
 export default (state, action) => {
   const { type, payload } = action;
@@ -14,7 +15,6 @@ export default (state, action) => {
         ...state,
         currentUser: payload,
         isAuth: true,
-        loading: false,
       };
     case CREATE_DRAFT:
       return {
@@ -29,12 +29,16 @@ export default (state, action) => {
         ...state,
         draft: payload,
       };
+    case CLEAR_DRAFT:
+      return {
+        ...state,
+        draft: null,
+      };
     case CLEAR_USER:
       return {
         ...state,
         currentUser: null,
         isAuth: false,
-        loading: true,
       };
     case LOGIN_FAIL:
     case LOGOUT:
@@ -42,7 +46,6 @@ export default (state, action) => {
         ...state,
         currentUser: null,
         isAuth: false,
-        loading: false,
       };
     default:
       return state;
