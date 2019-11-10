@@ -5,4 +5,5 @@ export default createContext({
   isAuth: false,
   draft: null,
   pins: [],
+  currentPin: null,
 });

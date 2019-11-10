@@ -10,3 +10,5 @@ export const CLEAR_DRAFT = "CLEAR_DRAFT";
 export const CREATE_PIN = "CREATE_PIN";
 export const CREATE_FAILED = "CREATE_FAILED";
 export const GET_PINS = "GET_PINS";
+export const SET_PIN = "SET_PIN";
+export const CLEAR_PIN = "CLEAR_PIN";

@@ -57,3 +57,33 @@ input[type="file"] {
 .ui.button {
   margin: 0;
 }
+.mapboxgl-map,
+div.overlays {
+  z-index: 1 !important;
+}
+i.icon.pin {
+  cursor: pointer;
+}
+.pin-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 10vh;
+}
+.pin-heading {
+  margin: 2px;
+}
+.blog-btns {
+  display: flex;
+  align-items: flex-start;
+  position: fixed;
+  width: 100%;
+  justify-content: space-between;
+}
+button.ui.button.close {
+  background: white;
+}
+.ui.red.button.delete {
+  margin: 5px;
+}

@@ -4,10 +4,15 @@ import { Icon } from "semantic-ui-react";
 import "mapbox-gl/dist/mapbox-gl.css";
 
 import Context from "../../state/context";
-import { CREATE_DRAFT, UPDATE_DRAFT, GET_PINS } from "../../state/types";
+import {
+  CREATE_DRAFT,
+  UPDATE_DRAFT,
+  GET_PINS,
+  SET_PIN,
+} from "../../state/types";
 import Blog from "./Blog";
 import api from "../../util/apiConnection";
-import { differenceInMinutes, isDate } from "date-fns";
+import { differenceInMinutes } from "date-fns";
 
 const initialViewport = {
   latitude: 30.267153,
@@ -34,7 +39,7 @@ const Map = () => {
       dispatch({ type: GET_PINS, payload: pins.data });
     };
     getPins();
-  }, []);
+  }, [dispatch]);
   const handleMapClick = ({ lngLat, leftButton }) => {
     if (!leftButton) return;
     const [longitude, latitude] = lngLat;
@@ -58,6 +63,7 @@ const Map = () => {
         mapStyle="mapbox://styles/mapbox/streets-v9"
         mapboxApiAccessToken="pk.eyJ1IjoiZ25hdGFsaWUiLCJhIjoiY2syc2JibzMwMHl4MzNvbnZxdGE4eThnYiJ9.Y4atD9eDNRJ9FDyPnUmGdQ"
         onViewportChange={newViewport => setViewport(newViewport)}
+        captureClick={true}
         onClick={handleMapClick}
         {...viewport}
       >
@@ -71,7 +77,7 @@ const Map = () => {
             offsetLeft={-19}
             offsetTop={-37}
           >
-            <Icon name="map pin" size="big" color="pink" />
+            <Icon name="marker" size="big" color="pink" />
           </Marker>
         )}
         {state.pins.map(pin => (
@@ -81,8 +87,16 @@ const Map = () => {
             longitude={pin.longitude}
             offsetLeft={-19}
             offsetTop={-37}
+            className="marker"
+            captureClick={true}
           >
-            <Icon name="map pin" size="big" color={highlightNew(pin)} />
+            <Icon
+              name="marker"
+              size="big"
+              color={highlightNew(pin)}
+              className="pin"
+              onClick={() => dispatch({ type: SET_PIN, payload: pin })}
+            />
           </Marker>
         ))}
       </ReactMapGl>

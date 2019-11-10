@@ -8,6 +8,8 @@ import {
   CLEAR_DRAFT,
   CREATE_PIN,
   GET_PINS,
+  SET_PIN,
+  CLEAR_PIN,
 } from "./types";
 export default (state, action) => {
   const { type, payload } = action;
@@ -34,6 +36,7 @@ export default (state, action) => {
     case CREATE_DRAFT:
       return {
         ...state,
+        currentPin: null,
         draft: {
           latitude: 0,
           longitude: 0,
@@ -60,6 +63,20 @@ export default (state, action) => {
       return {
         ...state,
         pins: [...payload],
+      };
+    }
+    case SET_PIN: {
+      return {
+        ...state,
+        currentPin: payload,
+        draft: null,
+      };
+    }
+    case CLEAR_PIN: {
+      console.log("reduce");
+      return {
+        ...state,
+        currentPin: null,
       };
     }
     default:
