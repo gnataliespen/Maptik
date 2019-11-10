@@ -6,6 +6,7 @@ import {
   CREATE_DRAFT,
   UPDATE_DRAFT,
   CLEAR_DRAFT,
+  CREATE_PIN,
 } from "./types";
 export default (state, action) => {
   const { type, payload } = action;

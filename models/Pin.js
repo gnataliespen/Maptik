@@ -8,13 +8,16 @@ const PinSchema = new Schema(
       type: String,
       required: true,
     },
-    content: String,
+    description: String,
     image: String,
-    lattitude: {
+    latitude: {
       type: Number,
       required: true,
     },
-    longitude: Number,
+    longitude: {
+      type: Number,
+      required: true,
+    },
     author: {
       type: ObjectId,
       ref: "User",

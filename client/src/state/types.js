@@ -7,3 +7,5 @@ export const LOGOUT = "LOGOUT";
 export const CREATE_DRAFT = "CREATE_DRAFT";
 export const UPDATE_DRAFT = "UPDATE_DRAFT";
 export const CLEAR_DRAFT = "CLEAR_DRAFT";
+export const CREATE_PIN = "CREATE_PIN";
+export const CREATE_FAILED = "CREATE_FAILED";

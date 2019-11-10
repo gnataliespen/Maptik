@@ -6,6 +6,7 @@ const cors = require("cors");
 const connectDB = require("./config/db");
 const indexRouter = require("./routes/index");
 const authRouter = require("./routes/authRouter");
+const pinRouter = require("./routes/pinRouter");
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.use(cors());
 //Define Routes
 app.use("/", indexRouter);
 app.use("/auth", authRouter);
+app.use("/pin", pinRouter);
 
 const { port } = require("./config/config");
 

@@ -5,7 +5,7 @@ module.exports = async (req, res, next) => {
   const token = req.header("x-auth-token");
   //Check for token
   if (!token) {
-    return res.status(401).json({ msg: "Not authorized" });
+    return next();
   }
   //Verify token
   try {
@@ -15,6 +15,6 @@ module.exports = async (req, res, next) => {
     req.user = ticket.getPayload();
     next();
   } catch (err) {
-    return res.status(401).json({ msg: "Not authorized" });
+    next();
   }
 };

@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import { Form, Icon, Button, Image } from "semantic-ui-react";
 import Context from "../../state/context";
 import { CLEAR_DRAFT } from "../../state/types";
+import api from "../../util/apiConnection";
 import axios from "axios";
 
 const intialForm = {
@@ -14,7 +15,7 @@ const CreatePin = () => {
   const [form, setForm] = useState(intialForm);
   const [loading, setLoading] = useState(false);
 
-  const { dispatch } = useContext(Context);
+  const { dispatch, state } = useContext(Context);
 
   const handleChange = event => {
     const { name, value, files } = event.target;
@@ -31,9 +32,31 @@ const CreatePin = () => {
   const handleSubmit = async event => {
     event.preventDefault();
     setLoading(true);
-    const url = await getImgUrl(form.image);
+    //Create pin object
+    const newPin = {
+      title: form.title.trim(),
+      description: form.description.trim(),
+      longitude: state.draft.longitude,
+      latitude: state.draft.latitude,
+    };
+    //If image upload to cloudinary and add url
+    if (form.image) {
+      try {
+        const url = await getImgUrl(form.image);
+        newPin.image = url;
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    try {
+      const pin = await api.post("/pin/create", newPin);
+      console.log(pin);
+      setForm(intialForm);
+      dispatch({ type: CLEAR_DRAFT });
+    } catch (err) {
+      console.log(err);
+    }
     setLoading(false);
-    console.log(url);
   };
   const handleDelete = () => {
     dispatch({ type: CLEAR_DRAFT });
