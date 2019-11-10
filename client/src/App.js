@@ -1,20 +1,21 @@
-import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import React, { useContext, useReducer } from "react";
 
-import Home from "./pages/Home";
-import Splash from "./pages/Splash";
-import Header from "./components/Header";
+import Home from "./components/Layout/Home";
+import Nav from "./components/Layout/Nav";
+import Context from "./state/context";
+import reducer from "./state/reducer";
+
 import "./css/Style.css";
 
 function App() {
+  const initialState = useContext(Context);
+  const [state, dispatch] = useReducer(reducer, initialState);
+  console.log(state);
   return (
-    <Router>
-      <Header />
-      <Switch>
-        <Route exact path="/" component={Home} />
-        <Route path="/login" component={Splash} />
-      </Switch>
-    </Router>
+    <Context.Provider value={{ state, dispatch }}>
+      <Nav />
+      <Home />
+    </Context.Provider>
   );
 }
 

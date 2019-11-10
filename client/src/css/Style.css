@@ -1,9 +1,10 @@
 #menu {
   background: purple;
   border-radius: 0px;
+  margin: 0;
 }
-#login-item {
-  padding-left: 60vw;
+.mapboxgl-ctrl-group {
+  width: 30px;
 }
 #login-body {
   padding: 5px;
