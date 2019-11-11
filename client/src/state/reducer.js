@@ -11,6 +11,7 @@ import {
   SET_PIN,
   CLEAR_PIN,
   DELETE_PIN,
+  CREATE_COMMENT,
 } from "./types";
 export default (state, action) => {
   const { type, payload } = action;
@@ -81,11 +82,20 @@ export default (state, action) => {
     }
     case DELETE_PIN: {
       let newPins = state.pins.filter(pin => pin._id !== payload);
-      console.log(newPins);
       return {
         ...state,
         currentPin: null,
         pins: newPins,
+      };
+    }
+    case CREATE_COMMENT: {
+      let newPins = state.pins.map(pin =>
+        pin._id === payload._id ? payload : pin,
+      );
+      return {
+        ...state,
+        pins: newPins,
+        currentPin: payload,
       };
     }
     default:

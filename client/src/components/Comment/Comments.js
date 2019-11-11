@@ -1,7 +1,8 @@
-import React from "react";
-import { List, CommentAvatar, Comment } from "semantic-ui-react";
-
+import React, { Fragment } from "react";
+import { List, CommentAvatar, Comment, Divider } from "semantic-ui-react";
+import { format } from "date-fns";
 const Comments = ({ comments }) => {
+  console.log(comments[0]);
   return (
     <Comment.Group>
       {comments.map((comment, i) => (
@@ -11,15 +12,15 @@ const Comments = ({ comments }) => {
             alt={comment.author.name}
           />
           <Comment.Content>
-            <Comment.Author as="h4">{comment.author.name}</Comment.Author>
+            <Comment.Author as="h4" style={{ margin: 0 }}>
+              {comment.author.name}
+            </Comment.Author>
             <Comment.Metadata>
-              <div>Just now</div>
+              <div>{format(new Date(comment.createdAt), "MMM, do, yyyy")}</div>
             </Comment.Metadata>
-            <Comment.Text>Elliot you are always so right :)</Comment.Text>
-            <Comment.Actions>
-              <Comment.Action>Reply</Comment.Action>
-            </Comment.Actions>
+            <Comment.Text>{comment.text}</Comment.Text>
           </Comment.Content>
+          <Divider />
         </Comment>
       ))}
     </Comment.Group>

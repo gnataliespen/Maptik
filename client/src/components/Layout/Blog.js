@@ -48,7 +48,7 @@ const Blog = () => {
           )}
       </div>
 
-      {!draft && currentPin ? <PinContent /> : <CreatePin />}
+      {!draft && currentPin ? <PinContent pin={currentPin} /> : <CreatePin />}
     </Sidebar>
   );
 };

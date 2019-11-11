@@ -13,3 +13,4 @@ export const GET_PINS = "GET_PINS";
 export const SET_PIN = "SET_PIN";
 export const CLEAR_PIN = "CLEAR_PIN";
 export const DELETE_PIN = "DELETE_PIN";
+export const CREATE_COMMENT = "CREATE_COMMENT";
