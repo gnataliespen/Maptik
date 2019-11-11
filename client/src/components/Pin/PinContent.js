@@ -2,6 +2,8 @@ import React, { useContext } from "react";
 import Context from "../../state/context";
 import { Image, Icon } from "semantic-ui-react";
 import { format } from "date-fns";
+import CreateComment from "../Comment/CreateComment";
+
 const PinContent = () => {
   const { state } = useContext(Context);
   const {
@@ -25,6 +27,7 @@ const PinContent = () => {
         <Icon name="clock" /> {format(date, "MMM, do, yyyy")}
       </h4>
       {description && <p>{description}</p>}
+      <CreateComment />
     </div>
   );
 };

@@ -49,3 +49,24 @@ exports.deletePin = async (req, res) => {
     res.status(500).json({ msg: "Could not delete pin at this time" });
   }
 };
+exports.comment = async (req, res) => {
+  try {
+    const newComment = { text: req.body.comment };
+    if (req.user) {
+      let user = await User.findOne({ email: req.user.email });
+      if (user) {
+        newComment.author = user._id;
+      }
+    }
+    const updatedPin = await Pin.findByIdAndUpdate(
+      { _id: req.body.pinId },
+      { $push: { comments: newComment } },
+      { new: true },
+    )
+      .populate("author")
+      .populate("comments.author");
+    res.status(200).json(updatedPin);
+  } catch (err) {
+    console.log(err);
+  }
+};

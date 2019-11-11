@@ -6,6 +6,7 @@ import { Sidebar, Icon, Button } from "semantic-ui-react";
 import PinContent from "../Pin/PinContent";
 import { CLEAR_PIN, CLEAR_DRAFT, DELETE_PIN } from "../../state/types";
 import api from "../../util/apiConnection";
+
 const Blog = () => {
   const { state, dispatch } = useContext(Context);
   const { draft, currentPin, currentUser } = state;
