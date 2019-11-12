@@ -10,7 +10,7 @@
 div.overlays {
   z-index: -1;
 }
-#login-body {
+.login-body {
   padding: 5px;
 }
 #primary {
@@ -97,4 +97,7 @@ button.ui.button.close {
 }
 div.pin-content {
   margin: 0 5vw;
+}
+.right.header.item.instructions {
+  margin-right: 5vw !important;
 }

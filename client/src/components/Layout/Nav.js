@@ -13,8 +13,8 @@ const Nav = () => {
   return (
     <Menu id="menu" inverted>
       <Menu.Item header id="primary">
-        <Icon name="map" size="large" />
-        GeoPins
+        <Icon name="map" size="large" color="yellow" />
+        Maptic
       </Menu.Item>
       {isAuth ? (
         <Fragment>
@@ -29,9 +29,13 @@ const Nav = () => {
       ) : (
         <Menu.Item header>
           <Login />
-          <p id="login-body"> or leave an anonymous pin</p>
+          <p className="login-body"> or leave an anonymous pin</p>
         </Menu.Item>
       )}
+      <Menu.Item header className="instructions" position="right">
+        <Icon name="location arrow" color="yellow" />
+        <p className="login-body"> Click on the map to get started</p>
+      </Menu.Item>
     </Menu>
   );
 };
