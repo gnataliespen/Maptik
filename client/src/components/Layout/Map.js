@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import ReactMapGl, { NavigationControl, Marker } from "react-map-gl";
 import { Icon } from "semantic-ui-react";
 import { differenceInMinutes } from "date-fns";
+import useMedia from "use-media";
 
 import Context from "../../state/context";
 import Blog from "./Blog";
@@ -24,6 +25,8 @@ const initialViewport = {
 const Map = () => {
   const [viewport, setViewport] = useState(initialViewport);
   const { state, dispatch } = useContext(Context);
+  //Check if user is on mobile
+  const mobile = useMedia({ maxWidth: 650 });
 
   useEffect(() => {
     const getUserPosition = async () => {
@@ -79,11 +82,12 @@ const Map = () => {
       <ReactMapGl
         id="map"
         width="100%"
-        height="calc(100vh - 68px)"
+        height="calc(100vh - 72px)"
         mapStyle="mapbox://styles/mapbox/streets-v9"
         mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_KEY}
         onViewportChange={newViewport => setViewport(newViewport)}
         captureClick={true}
+        scrollZoom={!mobile}
         onClick={handleMapClick}
         {...viewport}
       >

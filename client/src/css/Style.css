@@ -15,8 +15,9 @@ div.overlays {
 }
 #primary {
   margin: 10px;
+  margin-left: 2.5vw;
 }
-#blog {
+.blog {
   max-height: calc(100vh - 68px);
   overflow-y: scroll;
   display: flex;
@@ -98,6 +99,29 @@ button.ui.button.close {
 div.pin-content {
   margin: 0 5vw;
 }
-.right.header.item.instructions {
-  margin-right: 5vw !important;
+.header.item.instructions {
+  margin-right: 2.5vw !important;
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+}
+h1 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+h2 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+@media (max-width: 650px) {
+  div.form,
+  div.pin-content {
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+  .blog {
+    max-width: 100%;
+    max-height: 300px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+  }
 }

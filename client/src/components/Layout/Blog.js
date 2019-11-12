@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import useMedia from "use-media";
 
 import Context from "../../state/context";
 import CreatePin from "../Pin/CreatePin";
@@ -10,6 +11,10 @@ import api from "../../util/apiConnection";
 const Blog = () => {
   const { state, dispatch } = useContext(Context);
   const { draft, currentPin, currentUser } = state;
+
+  //Change side bar to be on top for mobile users
+  const mobile = useMedia({ maxWidth: 650 }) ? "top" : "right";
+
   //Blog content should only show if a pin is selected
   let visibility = !draft && !currentPin ? false : true;
 
@@ -28,12 +33,13 @@ const Blog = () => {
       console.log(err);
     }
   };
+
   return (
     <Sidebar
       visible={visibility}
-      id="blog"
+      className="blog"
       animation="overlay"
-      direction="right"
+      direction={mobile}
       width="wide"
     >
       <div className="blog-btns">

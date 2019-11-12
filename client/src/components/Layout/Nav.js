@@ -1,5 +1,6 @@
 import React, { Fragment, useContext } from "react";
 import { Menu, Icon, Image } from "semantic-ui-react";
+import useMedia from "use-media";
 
 import Context from "../../state/context";
 import Logout from "../Auth/Logout";
@@ -10,29 +11,40 @@ const Nav = () => {
     state: { isAuth, currentUser }
   } = useContext(Context);
 
+  //Check if user is on mobile
+  const mobile = useMedia({ maxWidth: 775 }) ? { display: "none" } : null;
+
   return (
     <Menu id="menu" inverted>
       <Menu.Item header id="primary">
         <Icon name="map" size="large" color="yellow" />
-        Maptic
+        <h1>Maptic</h1>
       </Menu.Item>
       {isAuth ? (
         <Fragment>
-          <Menu.Item header>
+          <Menu.Item header className="user">
             <Image avatar circular src={currentUser.picture} />{" "}
-            {currentUser.name}
+            <h2 style={mobile}>{currentUser.name}</h2>
           </Menu.Item>
-          <Menu.Item>
+          <Menu.Item position="right">
             <Logout />
           </Menu.Item>
         </Fragment>
       ) : (
         <Menu.Item header>
           <Login />
-          <p className="login-body"> or leave an anonymous pin</p>
+          <p className="login-body" style={mobile}>
+            {" "}
+            or leave an anonymous pin
+          </p>
         </Menu.Item>
       )}
-      <Menu.Item header className="instructions" position="right">
+      <Menu.Item
+        header
+        className="instructions"
+        position={isAuth ? null : "right"}
+        style={mobile}
+      >
         <Icon name="location arrow" color="yellow" />
         <p className="login-body"> Click on the map to get started</p>
       </Menu.Item>
