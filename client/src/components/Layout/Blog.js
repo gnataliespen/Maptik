@@ -10,9 +10,11 @@ import api from "../../util/apiConnection";
 const Blog = () => {
   const { state, dispatch } = useContext(Context);
   const { draft, currentPin, currentUser } = state;
+  //Blog content should only show if a pin is selected
   let visibility = !draft && !currentPin ? false : true;
 
   const clearPinState = () => {
+    //Check which state to clear
     !draft && currentPin
       ? dispatch({ type: CLEAR_PIN })
       : dispatch({ type: CLEAR_DRAFT });

@@ -11,8 +11,11 @@ import {
   SET_PIN,
   CLEAR_PIN,
   DELETE_PIN,
-  CREATE_COMMENT,
+  CREATE_COMMENT
 } from "./types";
+
+import setAuthToken from "../util/setAuthToken";
+
 export default (state, action) => {
   const { type, payload } = action;
   switch (type) {
@@ -20,20 +23,17 @@ export default (state, action) => {
       return {
         ...state,
         currentUser: payload,
-        isAuth: true,
+        isAuth: true
       };
     case CLEAR_USER:
-      return {
-        ...state,
-        currentUser: null,
-        isAuth: false,
-      };
     case LOGIN_FAIL:
     case LOGOUT:
+      //Remove token from req headers
+      setAuthToken(null);
       return {
         ...state,
         currentUser: null,
-        isAuth: false,
+        isAuth: false
       };
     case CREATE_DRAFT:
       return {
@@ -41,61 +41,63 @@ export default (state, action) => {
         currentPin: null,
         draft: {
           latitude: 0,
-          longitude: 0,
-        },
+          longitude: 0
+        }
       };
     case UPDATE_DRAFT:
       return {
         ...state,
-        draft: payload,
+        draft: payload
       };
     case CLEAR_DRAFT:
       return {
         ...state,
-        draft: null,
+        draft: null
       };
     case CREATE_PIN: {
       return {
         ...state,
         draft: null,
-        pins: [...state.pins, payload],
+        pins: [...state.pins, payload]
       };
     }
     case GET_PINS: {
       return {
         ...state,
-        pins: [...payload],
+        pins: [...payload]
       };
     }
     case SET_PIN: {
       return {
         ...state,
         currentPin: payload,
-        draft: null,
+        draft: null
       };
     }
     case CLEAR_PIN: {
       return {
         ...state,
-        currentPin: null,
+        currentPin: null
       };
     }
     case DELETE_PIN: {
+      //Remove deleted pin from pin arr
       let newPins = state.pins.filter(pin => pin._id !== payload);
       return {
         ...state,
         currentPin: null,
-        pins: newPins,
+        pins: newPins
       };
     }
     case CREATE_COMMENT: {
+      //Replace old pin with updated pin
       let newPins = state.pins.map(pin =>
-        pin._id === payload._id ? payload : pin,
+        pin._id === payload._id ? payload : pin
       );
       return {
         ...state,
         pins: newPins,
-        currentPin: payload,
+        currentPin: payload
       };
     }
     default:

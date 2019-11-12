@@ -1,7 +1,7 @@
 import React from "react";
-import Context from "../../state/context";
 import { Image, Icon, Segment } from "semantic-ui-react";
 import { format } from "date-fns";
+
 import CreateComment from "../Comment/CreateComment";
 import Comments from "../Comment/Comments";
 

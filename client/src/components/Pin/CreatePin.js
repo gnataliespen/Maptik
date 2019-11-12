@@ -1,16 +1,18 @@
 import React, { useState, useContext } from "react";
 import { Form, Icon, Button, Image } from "semantic-ui-react";
+
 import Context from "../../state/context";
 import { CLEAR_DRAFT, CREATE_PIN } from "../../state/types";
 import api from "../../util/apiConnection";
-import axios from "axios";
+import getImgUrl from "../../util/getImgUrl";
 
 const intialForm = {
   title: "",
   description: "",
   image: null,
-  preview: "",
+  preview: ""
 };
+
 const CreatePin = () => {
   const [form, setForm] = useState(intialForm);
   const [loading, setLoading] = useState(false);
@@ -23,61 +25,47 @@ const CreatePin = () => {
       setForm({
         ...form,
         preview: window.URL.createObjectURL(files[0]),
-        image: files[0],
+        image: files[0]
       });
     } else {
       setForm({ ...form, [name]: value });
     }
   };
+
   const handleSubmit = async event => {
     event.preventDefault();
     setLoading(true);
     //Create pin object
-    const newPin = {
+    const pinObj = {
       title: form.title.trim(),
       description: form.description.trim(),
       longitude: state.draft.longitude,
-      latitude: state.draft.latitude,
+      latitude: state.draft.latitude
     };
     //If image upload to cloudinary and add url
     if (form.image) {
       try {
         const url = await getImgUrl(form.image);
-        newPin.image = url;
+        pinObj.image = url;
       } catch (err) {
         console.log(err);
       }
     }
     try {
-      let pin = await api.post("/pins/create", newPin);
-      console.log(pin);
+      //Post pin and add it to state
+      let newPin = await api.post("/pins/create", pinObj);
       setForm(intialForm);
-      dispatch({ type: CREATE_PIN, payload: pin.data });
+      dispatch({ type: CREATE_PIN, payload: newPin.data });
     } catch (err) {
       console.log(err);
     }
     setLoading(false);
   };
-  const handleDelete = () => {
+  const clearDraft = () => {
     dispatch({ type: CLEAR_DRAFT });
     setForm(intialForm);
   };
-  const getImgUrl = async file => {
-    const data = new FormData();
-    data.append("file", file);
-    data.append("upload_preset", "ecomProject");
-    data.append("cloud_name", "gnatscloud");
-    try {
-      const res = await axios.post(process.env.REACT_APP_CLOUDINARY_URL, data);
-      return res.data.url;
-    } catch (err) {
-      if (err.response) {
-        console.log(err.response.data.error.message);
-      } else {
-        console.log(err);
-      }
-    }
-  };
+
   return (
     <div className="form">
       <h2 style={{ color: "green" }}>
@@ -114,7 +102,7 @@ const CreatePin = () => {
           />
         </div>
         <div className="btns">
-          <Button color="purple" onClick={handleDelete}>
+          <Button color="purple" onClick={clearDraft}>
             <Icon name="trash" size="small" /> Discard
           </Button>
           <Button

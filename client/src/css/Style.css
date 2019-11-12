@@ -95,3 +95,6 @@ button.ui.button.close {
   width: 100%;
   justify-content: space-between;
 }
+div.pin-content {
+  margin: 0 5vw;
+}

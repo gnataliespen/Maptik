@@ -1,13 +1,6 @@
 import React, { Fragment, useState, useContext } from "react";
-import {
-  Form,
-  Divider,
-  TextArea,
-  Input,
-  Segment,
-  Icon,
-  Button,
-} from "semantic-ui-react";
+import { Form, TextArea, Icon, Button } from "semantic-ui-react";
+
 import Context from "../../state/context";
 import api from "../../util/apiConnection";
 import { CREATE_COMMENT } from "../../state/types";
@@ -18,20 +11,21 @@ const CreateComment = () => {
 
   const {
     dispatch,
-    state: { currentPin },
+    state: { currentPin }
   } = useContext(Context);
 
   const handleSubmit = async event => {
     event.preventDefault();
     setLoading(true);
-    let res = await api.put("/pins/comment", {
+    let updatedPin = await api.put("/pins/comment", {
       comment,
-      pinId: currentPin._id,
+      pinId: currentPin._id
     });
-    dispatch({ type: CREATE_COMMENT, payload: res.data });
+    dispatch({ type: CREATE_COMMENT, payload: updatedPin.data });
     setComment("");
     setLoading(false);
   };
+
   return (
     <Fragment>
       <Form
@@ -51,7 +45,6 @@ const CreateComment = () => {
           <Icon name="send" color="green" />
         </Button>
       </Form>
-      <Divider />
     </Fragment>
   );
 };

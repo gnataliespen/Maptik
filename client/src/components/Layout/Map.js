@@ -1,38 +1,48 @@
 import React, { useState, useEffect, useContext } from "react";
 import ReactMapGl, { NavigationControl, Marker } from "react-map-gl";
 import { Icon } from "semantic-ui-react";
-import "mapbox-gl/dist/mapbox-gl.css";
+import { differenceInMinutes } from "date-fns";
 
 import Context from "../../state/context";
+import Blog from "./Blog";
+import api from "../../util/apiConnection";
 import {
   CREATE_DRAFT,
   UPDATE_DRAFT,
   GET_PINS,
-  SET_PIN,
+  SET_PIN
 } from "../../state/types";
-import Blog from "./Blog";
-import api from "../../util/apiConnection";
-import { differenceInMinutes } from "date-fns";
+
+import "mapbox-gl/dist/mapbox-gl.css";
 
 const initialViewport = {
   latitude: 30.267153,
   longitude: -97.743057,
-  zoom: 13,
+  zoom: 13
 };
+
 const Map = () => {
   const [viewport, setViewport] = useState(initialViewport);
   const { state, dispatch } = useContext(Context);
+
   useEffect(() => {
     const getUserPosition = async () => {
+      //If geolocation is available
       if ("geolocation" in navigator) {
+        //Get user position and move the Viewport to it
         navigator.geolocation.getCurrentPosition(position => {
           const { latitude, longitude } = position.coords;
-          setViewport({ ...viewport, latitude, longitude });
+          setViewport({
+            ...viewport,
+            latitude,
+            longitude
+          });
         });
       }
     };
     getUserPosition();
   }, [viewport]);
+
   useEffect(() => {
     const getPins = async () => {
       const pins = await api.get("/pins");
@@ -40,7 +50,9 @@ const Map = () => {
     };
     getPins();
   }, [dispatch]);
+
   const handleMapClick = ({ lngLat, leftButton }) => {
+    //If the user left clicks on the map start a pin draft
     if (!leftButton) return;
     const [longitude, latitude] = lngLat;
 
@@ -49,11 +61,19 @@ const Map = () => {
     }
     dispatch({ type: UPDATE_DRAFT, payload: { longitude, latitude } });
   };
+
   const highlightNew = pin => {
+    //Highlight pins created in the last 30 minutes
     const date = new Date(pin.createdAt);
     const isNew = differenceInMinutes(Date.now(), Number(date)) <= 30;
     return isNew ? "green" : "purple";
   };
+
+  //Set currently select pin
+  const setPin = pin => {
+    dispatch({ type: SET_PIN, payload: pin });
+  };
+
   return (
     <div className="map-container">
       <ReactMapGl
@@ -61,7 +81,7 @@ const Map = () => {
         width="100%"
         height="calc(100vh - 68px)"
         mapStyle="mapbox://styles/mapbox/streets-v9"
-        mapboxApiAccessToken="pk.eyJ1IjoiZ25hdGFsaWUiLCJhIjoiY2syc2JibzMwMHl4MzNvbnZxdGE4eThnYiJ9.Y4atD9eDNRJ9FDyPnUmGdQ"
+        mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_KEY}
         onViewportChange={newViewport => setViewport(newViewport)}
         captureClick={true}
         onClick={handleMapClick}
@@ -95,7 +115,7 @@ const Map = () => {
               size="big"
               color={highlightNew(pin)}
               className="pin"
-              onClick={() => dispatch({ type: SET_PIN, payload: pin })}
+              onClick={() => setPin(pin)}
             />
           </Marker>
         ))}

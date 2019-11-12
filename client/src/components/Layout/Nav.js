@@ -1,19 +1,22 @@
 import React, { Fragment, useContext } from "react";
 import { Menu, Icon, Image } from "semantic-ui-react";
+
 import Context from "../../state/context";
 import Logout from "../Auth/Logout";
 import Login from "../Auth/Login";
+
 const Nav = () => {
   const {
-    state: { isAuth, currentUser },
+    state: { isAuth, currentUser }
   } = useContext(Context);
+
   return (
     <Menu id="menu" inverted>
       <Menu.Item header id="primary">
         <Icon name="map" size="large" />
         GeoPins
       </Menu.Item>
-      {isAuth && currentUser ? (
+      {isAuth ? (
         <Fragment>
           <Menu.Item header>
             <Image avatar circular src={currentUser.picture} />{" "}
