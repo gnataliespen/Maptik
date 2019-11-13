@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { GoogleLogin } from "react-google-login";
+import { useAlert } from "react-alert";
 
 import api from "../../util/apiConnection";
 import setAuthToken from "../../util/setAuthToken";
@@ -8,24 +9,24 @@ import { LOGIN_USER, LOGIN_FAIL } from "../../state/types";
 
 const Login = () => {
   const { dispatch } = useContext(Context);
+  const alert = useAlert();
 
   const onSuccess = async googleUser => {
     const idToken = googleUser.getAuthResponse().id_token;
-    //add token to req header
+    //Add token to req header
     setAuthToken(idToken);
     try {
       let user = await api.get("/auth/google");
       dispatch({ type: LOGIN_USER, payload: user.data });
+      alert.show("Logged in", { type: "success" });
     } catch (err) {
-      console.log(err);
-      if (err.response) {
-        console.log(err.response);
-      }
       dispatch({ type: LOGIN_FAIL });
+      return alert.show("Could not log in", { type: "error" });
     }
   };
 
   const onFailure = () => {
+    alert.show("Google auth failed", { type: "error" });
     dispatch({ type: LOGIN_FAIL });
   };
 

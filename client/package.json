@@ -10,6 +10,8 @@
     "dotenv": "^8.2.0",
     "mapbox-gl": "^1.5.0",
     "react": "^16.11.0",
+    "react-alert": "^6.0.0",
+    "react-alert-template-basic": "^1.0.0",
     "react-dom": "^16.11.0",
     "react-google-login": "^5.0.7",
     "react-map-gl": "^5.1.2",
@@ -17,7 +19,8 @@
     "react-scripts": "3.2.0",
     "semantic-ui-react": "^0.88.1",
     "socket.io-client": "^2.3.0",
-    "use-media": "^1.4.0"
+    "use-media": "^1.4.0",
+    "uuid": "^3.3.3"
   },
   "scripts": {
     "start": "react-scripts start",

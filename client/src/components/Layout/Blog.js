@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import useMedia from "use-media";
+import { useAlert } from "react-alert";
 
 import Context from "../../state/context";
 import CreatePin from "../Pin/CreatePin";
@@ -11,7 +12,7 @@ import api from "../../util/apiConnection";
 const Blog = () => {
   const { state, dispatch } = useContext(Context);
   const { draft, currentPin, currentUser } = state;
-
+  const alert = useAlert();
   //Change side bar to be on top for mobile users
   const mobile = useMedia({ maxWidth: 650 }) ? "top" : "right";
 
@@ -29,6 +30,7 @@ const Blog = () => {
     try {
       await api.delete(`/pins/delete/${currentPin._id}`);
       dispatch({ type: DELETE_PIN, payload: currentPin._id });
+      alert.show("Deleted pin", { type: "success" });
     } catch (err) {
       console.log(err);
     }

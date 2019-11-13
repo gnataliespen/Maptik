@@ -6,4 +6,5 @@ export default createContext({
   draft: null,
   pins: [],
   currentPin: null,
+  alerts: []
 });

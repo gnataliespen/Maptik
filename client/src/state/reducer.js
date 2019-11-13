@@ -11,7 +11,9 @@ import {
   SET_PIN,
   CLEAR_PIN,
   DELETE_PIN,
-  CREATE_COMMENT
+  CREATE_COMMENT,
+  SET_ALERT,
+  REMOVE_ALERT
 } from "./types";
 
 import setAuthToken from "../util/setAuthToken";
@@ -19,6 +21,7 @@ import setAuthToken from "../util/setAuthToken";
 export default (state, action) => {
   const { type, payload } = action;
   switch (type) {
+    //Auth reducers
     case LOGIN_USER:
       return {
         ...state,
@@ -35,6 +38,7 @@ export default (state, action) => {
         currentUser: null,
         isAuth: false
       };
+    //Pin reducers
     case CREATE_DRAFT:
       return {
         ...state,
@@ -100,6 +104,18 @@ export default (state, action) => {
         currentPin: payload
       };
     }
+    //Alerts Reducers
+    case SET_ALERT:
+      return {
+        ...state,
+        alerts: [...state.alerts, payload]
+      };
+    case REMOVE_ALERT:
+      const alertsArr = state.alerts.filter(alert => alert.id !== payload);
+      return {
+        ...state,
+        alerts: alertsArr
+      };
     default:
       return state;
   }

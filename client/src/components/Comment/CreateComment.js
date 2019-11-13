@@ -1,5 +1,6 @@
 import React, { Fragment, useState, useContext } from "react";
 import { Form, TextArea, Icon, Button } from "semantic-ui-react";
+import { useAlert } from "react-alert";
 
 import Context from "../../state/context";
 import api from "../../util/apiConnection";
@@ -14,6 +15,8 @@ const CreateComment = () => {
     state: { currentPin }
   } = useContext(Context);
 
+  const alert = useAlert();
+
   const handleSubmit = async event => {
     event.preventDefault();
     setLoading(true);
@@ -24,6 +27,7 @@ const CreateComment = () => {
     dispatch({ type: CREATE_COMMENT, payload: updatedPin.data });
     setComment("");
     setLoading(false);
+    alert.show("Posted comment", { type: "success" });
   };
 
   return (

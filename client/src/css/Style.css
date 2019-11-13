@@ -9,6 +9,7 @@
 .mapboxgl-map,
 div.overlays {
   z-index: -1;
+  position: fixed;
 }
 .login-body {
   padding: 5px;
@@ -111,7 +112,6 @@ h2 {
   margin: 0;
   font-size: 1.25rem;
 }
-
 @media (max-width: 650px) {
   div.form,
   div.pin-content {

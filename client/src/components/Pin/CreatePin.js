@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react";
 import { Form, Icon, Button, Image } from "semantic-ui-react";
+import { useAlert } from "react-alert";
 
 import Context from "../../state/context";
 import { CLEAR_DRAFT, CREATE_PIN } from "../../state/types";
@@ -18,6 +19,8 @@ const CreatePin = () => {
   const [loading, setLoading] = useState(false);
 
   const { dispatch, state } = useContext(Context);
+
+  const alert = useAlert();
 
   const handleChange = event => {
     const { name, value, files } = event.target;
@@ -48,7 +51,7 @@ const CreatePin = () => {
         const url = await getImgUrl(form.image);
         pinObj.image = url;
       } catch (err) {
-        console.log(err);
+        alert.show("Failed to upload image", { type: "error" });
       }
     }
     try {
@@ -56,8 +59,10 @@ const CreatePin = () => {
       let newPin = await api.post("/pins/create", pinObj);
       setForm(intialForm);
       dispatch({ type: CREATE_PIN, payload: newPin.data });
+      alert.show("Created pin", { type: "success" });
     } catch (err) {
       console.log(err);
+      alert.show("Failed to create pin", { type: "error" });
     }
     setLoading(false);
   };
