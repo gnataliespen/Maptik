@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useMemo } from "react";
 import ReactMapGl, { NavigationControl, Marker } from "react-map-gl";
 import { Icon } from "semantic-ui-react";
 import { differenceInMinutes } from "date-fns";
 import useMedia from "use-media";
+import { useAlert } from "react-alert";
 
 import Context from "../../state/context";
 import Blog from "./Blog";
@@ -28,8 +29,11 @@ const Map = () => {
   //Check if user is on mobile
   const mobile = useMedia({ maxWidth: 650 });
 
-  useEffect(() => {
+  const alert = useAlert();
+
+  /*useEffect(() => {
     const getUserPosition = async () => {
+      console.log("hey");
       //If geolocation is available
       if ("geolocation" in navigator) {
         //Get user position and move the Viewport to it
@@ -44,16 +48,20 @@ const Map = () => {
       }
     };
     getUserPosition();
-  }, [viewport]);
+  }, []);*/
 
   useEffect(() => {
     const getPins = async () => {
-      const pins = await api.get("/pins");
-      dispatch({ type: GET_PINS, payload: pins.data });
+      try {
+        const pins = await api.get("/pins");
+        dispatch({ type: GET_PINS, payload: pins.data });
+      } catch {
+        alert.show("Failed to load pins", { type: "error" });
+      }
     };
     getPins();
-  }, [dispatch]);
-
+  }, []);
+  console.log("render");
   const handleMapClick = ({ lngLat, leftButton }) => {
     //If the user left clicks on the map start a pin draft
     if (!leftButton) return;
@@ -76,6 +84,29 @@ const Map = () => {
   const setPin = pin => {
     dispatch({ type: SET_PIN, payload: pin });
   };
+
+  const renderMarkers = useMemo(() => {
+    console.log("markers");
+    return state.pins.map(pin => (
+      <Marker
+        key={pin._id}
+        latitude={pin.latitude}
+        longitude={pin.longitude}
+        offsetLeft={-19}
+        offsetTop={-37}
+        className="marker"
+        captureClick={true}
+      >
+        <Icon
+          name="marker"
+          size="big"
+          color={highlightNew(pin)}
+          className="pin"
+          onClick={() => setPin(pin)}
+        />
+      </Marker>
+    ));
+  }, [state.pins]);
 
   return (
     <div className="map-container">
@@ -104,25 +135,7 @@ const Map = () => {
             <Icon name="marker" size="big" color="pink" />
           </Marker>
         )}
-        {state.pins.map(pin => (
-          <Marker
-            key={pin._id}
-            latitude={pin.latitude}
-            longitude={pin.longitude}
-            offsetLeft={-19}
-            offsetTop={-37}
-            className="marker"
-            captureClick={true}
-          >
-            <Icon
-              name="marker"
-              size="big"
-              color={highlightNew(pin)}
-              className="pin"
-              onClick={() => setPin(pin)}
-            />
-          </Marker>
-        ))}
+        {renderMarkers}
       </ReactMapGl>
       <Blog />
     </div>

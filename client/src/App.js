@@ -1,13 +1,15 @@
-import React, { useContext, useReducer } from "react";
+import React, { useContext, useReducer, lazy, Suspense } from "react";
 import { Provider as AlertProvider } from "react-alert";
 import AlertTemplate from "react-alert-template-basic";
+import { Loader } from "semantic-ui-react";
 
-import Map from "./components/Layout/Map";
 import Nav from "./components/Layout/Nav";
 import Context from "./state/context";
 import reducer from "./state/reducer";
 
 import "./css/Style.css";
+
+const Map = lazy(() => import("./components/Layout/Map"));
 
 const options = {
   timeout: 5000
@@ -20,7 +22,9 @@ function App() {
     <Context.Provider value={{ state, dispatch }}>
       <AlertProvider template={AlertTemplate} {...options}>
         <Nav />
-        <Map />
+        <Suspense fallback={<Loader active />}>
+          <Map />
+        </Suspense>
       </AlertProvider>
     </Context.Provider>
   );

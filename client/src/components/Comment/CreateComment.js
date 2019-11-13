@@ -20,14 +20,18 @@ const CreateComment = () => {
   const handleSubmit = async event => {
     event.preventDefault();
     setLoading(true);
-    let updatedPin = await api.put("/pins/comment", {
-      comment,
-      pinId: currentPin._id
-    });
-    dispatch({ type: CREATE_COMMENT, payload: updatedPin.data });
-    setComment("");
+    try {
+      let updatedPin = await api.put("/pins/comment", {
+        comment,
+        pinId: currentPin._id
+      });
+      dispatch({ type: CREATE_COMMENT, payload: updatedPin.data });
+      setComment("");
+      alert.show("Posted comment", { type: "success" });
+    } catch (err) {
+      alert.show("Failed to post comment", { type: "error" });
+    }
     setLoading(false);
-    alert.show("Posted comment", { type: "success" });
   };
 
   return (

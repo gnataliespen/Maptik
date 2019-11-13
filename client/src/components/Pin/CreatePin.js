@@ -45,23 +45,20 @@ const CreatePin = () => {
       longitude: state.draft.longitude,
       latitude: state.draft.latitude
     };
-    //If image upload to cloudinary and add url
-    if (form.image) {
-      try {
+    try {
+      //If image upload to cloudinary and add url
+      if (form.image) {
         const url = await getImgUrl(form.image);
         pinObj.image = url;
-      } catch (err) {
-        alert.show("Failed to upload image", { type: "error" });
       }
-    }
-    try {
+
       //Post pin and add it to state
       let newPin = await api.post("/pins/create", pinObj);
       setForm(intialForm);
       dispatch({ type: CREATE_PIN, payload: newPin.data });
+
       alert.show("Created pin", { type: "success" });
     } catch (err) {
-      console.log(err);
       alert.show("Failed to create pin", { type: "error" });
     }
     setLoading(false);

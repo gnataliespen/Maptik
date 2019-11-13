@@ -32,7 +32,7 @@ const Blog = () => {
       dispatch({ type: DELETE_PIN, payload: currentPin._id });
       alert.show("Deleted pin", { type: "success" });
     } catch (err) {
-      console.log(err);
+      alert.show("Failed to delete pin", { type: "error" });
     }
   };
 
