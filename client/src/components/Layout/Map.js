@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useContext, useMemo } from "react";
+import React, {
+  useState,
+  useEffect,
+  useContext,
+  useMemo,
+  useCallback
+} from "react";
 import ReactMapGl, { NavigationControl, Marker } from "react-map-gl";
 import { Icon } from "semantic-ui-react";
 import { differenceInMinutes } from "date-fns";
@@ -51,6 +57,7 @@ const Map = () => {
   }, []);*/
 
   useEffect(() => {
+    console.log("hey");
     const getPins = async () => {
       try {
         const pins = await api.get("/pins");
@@ -60,8 +67,8 @@ const Map = () => {
       }
     };
     getPins();
-  }, []);
-  console.log("render");
+  }, [dispatch]);
+  //console.log("render");
   const handleMapClick = ({ lngLat, leftButton }) => {
     //If the user left clicks on the map start a pin draft
     if (!leftButton) return;
@@ -81,9 +88,14 @@ const Map = () => {
   };
 
   //Set currently select pin
-  const setPin = pin => {
-    dispatch({ type: SET_PIN, payload: pin });
-  };
+  const setPin = useCallback(
+    pin => {
+      console.log("setpin");
+
+      dispatch({ type: SET_PIN, payload: pin });
+    },
+    [dispatch]
+  );
 
   const renderMarkers = useMemo(() => {
     console.log("markers");
@@ -106,7 +118,7 @@ const Map = () => {
         />
       </Marker>
     ));
-  }, [state.pins]);
+  }, [state.pins, setPin]);
 
   return (
     <div className="map-container">

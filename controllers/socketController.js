@@ -1,7 +1,7 @@
 const Pin = require("../models/Pin");
 const User = require("../models/User");
 
-exports.createPin = async (req, res) => {
+exports.createPin = async () => {
   const { title, image, description, longitude, latitude } = req.body;
   //Intialize new pin obj
   const newPin = { longitude, latitude, title };
@@ -25,16 +25,6 @@ exports.createPin = async (req, res) => {
   }
 };
 
-exports.getPins = async (req, res) => {
-  try {
-    const pins = await Pin.find()
-      .populate("author")
-      .populate("comments.author");
-    res.status(200).json(pins);
-  } catch (err) {
-    console.log(err);
-  }
-};
 exports.deletePin = async (req, res) => {
   try {
     if (!req.user) return res.status(401).json({ msg: "Not Authorized" });

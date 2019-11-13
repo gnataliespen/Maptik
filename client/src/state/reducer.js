@@ -16,8 +16,6 @@ import {
   REMOVE_ALERT
 } from "./types";
 
-import setAuthToken from "../util/setAuthToken";
-
 export default (state, action) => {
   const { type, payload } = action;
   switch (type) {
@@ -31,8 +29,6 @@ export default (state, action) => {
     case CLEAR_USER:
     case LOGIN_FAIL:
     case LOGOUT:
-      //Remove token from req headers
-      setAuthToken(null);
       return {
         ...state,
         currentUser: null,

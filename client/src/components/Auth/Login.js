@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { GoogleLogin } from "react-google-login";
 import { useAlert } from "react-alert";
+import Cookies from "js-cookie";
 
 import api from "../../util/apiConnection";
 import setAuthToken from "../../util/setAuthToken";
@@ -13,13 +14,18 @@ const Login = () => {
 
   const onSuccess = async googleUser => {
     const idToken = googleUser.getAuthResponse().id_token;
+    Cookies.set("token", idToken, { expires: 1 / 24 });
     //Add token to req header
-    setAuthToken(idToken);
+    setAuthToken();
     try {
       let user = await api.get("/auth/google");
       dispatch({ type: LOGIN_USER, payload: user.data });
       alert.show("Logged in", { type: "success" });
     } catch (err) {
+      //Delete token and remove it from req header
+      Cookies.remove("token");
+      setAuthToken();
+
       dispatch({ type: LOGIN_FAIL });
       return alert.show("Could not log in", { type: "error" });
     }
