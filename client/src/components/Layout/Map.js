@@ -1,3 +1,7 @@
+import ReactMapGl, { NavigationControl, Marker } from "react-map-gl";
+import { Icon } from "semantic-ui-react";
+import { differenceInMinutes } from "date-fns";
+import useMedia from "use-media";
 import React, {
   useState,
   useEffect,
@@ -5,22 +9,17 @@ import React, {
   useMemo,
   useCallback
 } from "react";
-import ReactMapGl, { NavigationControl, Marker } from "react-map-gl";
-import { Icon } from "semantic-ui-react";
-import { differenceInMinutes } from "date-fns";
-import useMedia from "use-media";
-import { useAlert } from "react-alert";
 
-import Context from "../../state/context";
+import Context from "../../state/Context";
 import Blog from "./Blog";
 import api from "../../util/apiConnection";
+import WithSocket from "../hoc/WithSocket";
 import {
   CREATE_DRAFT,
   UPDATE_DRAFT,
   GET_PINS,
   SET_PIN
 } from "../../state/types";
-import WithSocket from "./WithSocket";
 
 import "mapbox-gl/dist/mapbox-gl.css";
 
@@ -30,13 +29,11 @@ const initialViewport = {
   zoom: 13
 };
 
-const Map = ({ createPin }) => {
+const Map = () => {
   const [viewport, setViewport] = useState(initialViewport);
   const { state, dispatch } = useContext(Context);
   //Check if user is on mobile
   const mobile = useMedia({ maxWidth: 650 });
-
-  const alert = useAlert();
 
   /*useEffect(() => {
     const getUserPosition = async () => {
@@ -58,18 +55,13 @@ const Map = ({ createPin }) => {
   }, []);*/
 
   useEffect(() => {
-    console.log("hey");
     const getPins = async () => {
-      try {
-        const pins = await api.get("/pins");
-        dispatch({ type: GET_PINS, payload: pins.data });
-      } catch {
-        alert.show("Failed to load pins", { type: "error" });
-      }
+      const pins = await api.get("/pins");
+      dispatch({ type: GET_PINS, payload: pins.data });
     };
     getPins();
   }, [dispatch]);
-  //console.log("render");
+
   const handleMapClick = ({ lngLat, leftButton }) => {
     //If the user left clicks on the map start a pin draft
     if (!leftButton) return;

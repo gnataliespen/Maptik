@@ -4,7 +4,7 @@ import { useAlert } from "react-alert";
 import Cookies from "js-cookie";
 
 import setAuthToken from "../../util/setAuthToken";
-import Context from "../../state/context";
+import Context from "../../state/Context";
 import { LOGOUT } from "../../state/types";
 
 const Logout = () => {

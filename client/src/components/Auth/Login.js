@@ -5,7 +5,7 @@ import Cookies from "js-cookie";
 
 import api from "../../util/apiConnection";
 import setAuthToken from "../../util/setAuthToken";
-import Context from "../../state/context";
+import Context from "../../state/Context";
 import { LOGIN_USER, LOGIN_FAIL } from "../../state/types";
 
 const Login = () => {

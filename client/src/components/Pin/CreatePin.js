@@ -2,9 +2,8 @@ import React, { useState, useContext } from "react";
 import { Form, Icon, Button, Image } from "semantic-ui-react";
 import { useAlert } from "react-alert";
 
-import Context from "../../state/context";
-import { CLEAR_DRAFT, CREATE_PIN } from "../../state/types";
-import api from "../../util/apiConnection";
+import Context from "../../state/Context";
+import { CLEAR_DRAFT } from "../../state/types";
 import getImgUrl from "../../util/getImgUrl";
 
 const intialForm = {
@@ -52,14 +51,18 @@ const CreatePin = ({ handleCreate }) => {
         pinObj.image = url;
       }
 
-      //Post pin and add it to state
-      await handleCreate(pinObj);
+      //From hoc WithSocket, sends new pin obj to backend where its saved in db
+      handleCreate(pinObj);
+
       setForm(intialForm);
+
+      alert.show("Created pin", { type: "success" });
     } catch (err) {
       alert.show("Failed to create pin", { type: "error" });
     }
     setLoading(false);
   };
+
   const clearDraft = () => {
     dispatch({ type: CLEAR_DRAFT });
     setForm(intialForm);

@@ -6,14 +6,12 @@ import {
   CREATE_DRAFT,
   UPDATE_DRAFT,
   CLEAR_DRAFT,
-  CREATE_PIN,
+  NEW_PIN,
   GET_PINS,
   SET_PIN,
   CLEAR_PIN,
   DELETE_PIN,
-  CREATE_COMMENT,
-  SET_ALERT,
-  REMOVE_ALERT
+  UPDATE_PIN
 } from "./types";
 
 export default (state, action) => {
@@ -54,7 +52,7 @@ export default (state, action) => {
         ...state,
         draft: null
       };
-    case CREATE_PIN: {
+    case NEW_PIN: {
       return {
         ...state,
         draft: null,
@@ -89,7 +87,7 @@ export default (state, action) => {
         pins: newPins
       };
     }
-    case CREATE_COMMENT: {
+    case UPDATE_PIN: {
       //Replace old pin with updated pin
       let newPins = state.pins.map(pin =>
         pin._id === payload._id ? payload : pin
@@ -100,18 +98,6 @@ export default (state, action) => {
         currentPin: payload
       };
     }
-    //Alerts Reducers
-    case SET_ALERT:
-      return {
-        ...state,
-        alerts: [...state.alerts, payload]
-      };
-    case REMOVE_ALERT:
-      const alertsArr = state.alerts.filter(alert => alert.id !== payload);
-      return {
-        ...state,
-        alerts: alertsArr
-      };
     default:
       return state;
   }

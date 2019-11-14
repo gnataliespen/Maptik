@@ -2,7 +2,7 @@ import React, { Fragment, useContext } from "react";
 import { Menu, Icon, Image } from "semantic-ui-react";
 import useMedia from "use-media";
 
-import Context from "../../state/context";
+import Context from "../../state/Context";
 import Logout from "../Auth/Logout";
 import Login from "../Auth/Login";
 
@@ -11,19 +11,26 @@ const Nav = () => {
     state: { isAuth, currentUser }
   } = useContext(Context);
 
-  //Check if user is on mobile
+  //Check user screen size
   const mobile = useMedia({ maxWidth: 775 }) ? { display: "none" } : null;
+  const verySmall = useMedia({ maxWidth: 355 }) ? { display: "none" } : null;
 
   return (
     <Menu id="menu" inverted>
       <Menu.Item header id="primary">
         <Icon name="map" size="large" color="yellow" />
-        <h1>Maptic</h1>
+        <h1 style={verySmall}>Maptic</h1>
       </Menu.Item>
+      {/*If authenticated show basic profile info*/}
       {isAuth ? (
         <Fragment>
           <Menu.Item header className="user">
-            <Image avatar circular src={currentUser.picture} />{" "}
+            <Image
+              avatar
+              circular
+              src={currentUser.picture}
+              style={verySmall}
+            />{" "}
             <h2 style={mobile}>{currentUser.name}</h2>
           </Menu.Item>
           <Menu.Item position="right">

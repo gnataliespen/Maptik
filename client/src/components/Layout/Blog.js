@@ -2,17 +2,17 @@ import React, { useContext } from "react";
 import useMedia from "use-media";
 import { useAlert } from "react-alert";
 
-import Context from "../../state/context";
+import Context from "../../state/Context";
 import CreatePin from "../Pin/CreatePin";
 import { Sidebar, Icon, Button } from "semantic-ui-react";
 import PinContent from "../Pin/PinContent";
-import { CLEAR_PIN, CLEAR_DRAFT, DELETE_PIN } from "../../state/types";
-import api from "../../util/apiConnection";
+import { CLEAR_PIN, CLEAR_DRAFT } from "../../state/types";
 
 const Blog = ({ createPin, deletePin, createComment }) => {
   const { state, dispatch } = useContext(Context);
   const { draft, currentPin, currentUser } = state;
   const alert = useAlert();
+
   //Change side bar to be on top for mobile users
   const mobile = useMedia({ maxWidth: 650 }) ? "top" : "right";
 
@@ -27,19 +27,15 @@ const Blog = ({ createPin, deletePin, createComment }) => {
   };
 
   const handleDelete = async () => {
-    try {
-      await api.delete(`/pins/delete/${currentPin._id}`);
-      dispatch({ type: DELETE_PIN, payload: currentPin._id });
-      alert.show("Deleted pin", { type: "success" });
-    } catch (err) {
-      alert.show("Failed to delete pin", { type: "error" });
-    }
+    //Passed down from WithSocket hoc, sends pin id to backend where the pin is deleted
+    deletePin(currentPin._id);
+    alert.show("Deleted pin", { type: "success" });
   };
 
   return (
     <Sidebar
       visible={visibility}
-      className="blog"
+      id="blog"
       animation="overlay"
       direction={mobile}
       width="wide"
@@ -52,11 +48,7 @@ const Blog = ({ createPin, deletePin, createComment }) => {
           currentPin &&
           currentPin.author &&
           currentUser._id === currentPin.author._id && (
-            <Button
-              color="red"
-              className="delete"
-              onClick={() => deletePin(currentPin._id)}
-            >
+            <Button color="red" className="delete" onClick={handleDelete}>
               Delete Pin
             </Button>
           )}

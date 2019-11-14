@@ -4,7 +4,7 @@ import AlertTemplate from "react-alert-template-basic";
 import { Loader } from "semantic-ui-react";
 
 import Nav from "./components/Layout/Nav";
-import Context from "./state/context";
+import Context from "./state/Context";
 import reducer from "./state/reducer";
 
 import "./css/Style.css";

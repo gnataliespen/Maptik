@@ -2,16 +2,13 @@ import React, { Fragment, useState, useContext } from "react";
 import { Form, TextArea, Icon, Button } from "semantic-ui-react";
 import { useAlert } from "react-alert";
 
-import Context from "../../state/context";
-import api from "../../util/apiConnection";
-import { CREATE_COMMENT } from "../../state/types";
+import Context from "../../state/Context";
 
 const CreateComment = ({ handleCreate }) => {
   const [comment, setComment] = useState("");
   const [loading, setLoading] = useState(false);
 
   const {
-    dispatch,
     state: { currentPin }
   } = useContext(Context);
 
@@ -21,11 +18,11 @@ const CreateComment = ({ handleCreate }) => {
     event.preventDefault();
     setLoading(true);
     try {
-      await handleCreate({
+      //Passed down from WithSocket hoc, sends comment and pin info to backend where the pin is updated
+      handleCreate({
         text: comment,
         pinId: currentPin._id
       });
-      //dispatch({ type: CREATE_COMMENT, payload: updatedPin.data });
       setComment("");
       alert.show("Posted comment", { type: "success" });
     } catch (err) {
