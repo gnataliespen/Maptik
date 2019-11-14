@@ -5,7 +5,6 @@ const dotenv = require("dotenv");
 const cors = require("cors");
 
 const connectDB = require("./config/db");
-const indexRouter = require("./routes/index");
 const authRouter = require("./routes/authRouter");
 const pinRouter = require("./routes/pinRouter");
 const socketController = require("./controllers/socketController");
@@ -26,7 +25,6 @@ dotenv.config();
 app.use(cors());
 
 //Define Routes
-app.use("/", indexRouter);
 app.use("/auth", authRouter);
 app.use("/pins", pinRouter);
 
@@ -34,7 +32,6 @@ const { port } = require("./config/config");
 
 io.on("connection", function(socket) {
   socket.on("create pin", async newPin => {
-    //console.log(newPin);
     let pin = await socketController.createPin(newPin);
     if (pin) {
       io.emit("new pin", pin);
@@ -48,7 +45,6 @@ io.on("connection", function(socket) {
   });
   socket.on("create comment", async newComment => {
     let updatedPin = await socketController.comment(newComment);
-    console.log(updatedPin);
     if (updatedPin) {
       io.emit("updated pin", updatedPin);
     }

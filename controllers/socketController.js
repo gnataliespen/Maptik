@@ -39,12 +39,13 @@ exports.deletePin = async reqObj => {
   }
 };
 exports.comment = async newComment => {
-  const { token, text, pinId } = newComment;
+  const { token, text, pinId, image } = newComment;
   const user = await auth(token);
   const commentObj = { text };
   if (user) {
     commentObj.author = user._id;
   }
+  if (image) commentObj.image = image;
   try {
     const updatedPin = await Pin.findByIdAndUpdate(
       { _id: pinId },

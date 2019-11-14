@@ -6,42 +6,43 @@ const PinSchema = new Schema(
   {
     title: {
       type: String,
-      required: true,
+      required: true
     },
     description: String,
     image: String,
     latitude: {
       type: Number,
-      required: true,
+      required: true
     },
     longitude: {
       type: Number,
-      required: true,
+      required: true
     },
     author: {
       type: ObjectId,
-      ref: "User",
+      ref: "User"
     },
     comments: [
       {
         text: {
           type: String,
-          required: true,
+          required: true
         },
         createdAt: {
           type: Date,
-          default: Date.now,
+          default: Date.now
         },
         author: {
           type: ObjectId,
-          ref: "User",
+          ref: "User"
         },
-      },
-    ],
+        image: String
+      }
+    ]
   },
   {
-    timestamps: true,
-  },
+    timestamps: true
+  }
 );
 
 module.exports = mongoose.model("Pin", PinSchema);
