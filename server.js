@@ -49,6 +49,12 @@ io.on("connection", function(socket) {
       io.emit("updated pin", updatedPin);
     }
   });
+  socket.on("delete comment", async oldComment => {
+    let updatedPin = await socketController.deleteComment(oldComment);
+    if (updatedPin) {
+      io.emit("updated pin", updatedPin);
+    }
+  });
 });
 
 server.listen(port, () => console.log(`Server started on ${port}`));

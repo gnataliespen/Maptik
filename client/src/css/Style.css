@@ -28,6 +28,11 @@ div.overlays {
   margin-top: 72px !important;
   position: absolute;
 }
+.comment-author {
+  margin: 0;
+  display: flex;
+  justify-content: space-between;
+}
 
 .ui.basic.modal.transition.visible.active {
   top: 30vh;

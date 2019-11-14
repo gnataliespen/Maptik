@@ -43,11 +43,17 @@ const WithSocket = ({ Component }) => {
     newComment.token = Cookies.get("token");
     socket.emit("create comment", newComment);
   };
+  const deleteComment = oldComment => {
+    //Add token so backend can verify author
+    oldComment.token = Cookies.get("token");
+    socket.emit("delete comment", oldComment);
+  };
   return (
     <Component
       createPin={createPin}
       deletePin={deletePin}
       createComment={createComment}
+      deleteComment={deleteComment}
     />
   );
 };

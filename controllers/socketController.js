@@ -60,3 +60,24 @@ exports.comment = async newComment => {
     return null;
   }
 };
+exports.deleteComment = async oldComment => {
+  const { pinId, comment, token } = oldComment;
+  const user = await auth(token);
+  if (!user) return res.status(401).json({ msg: "Not Authorized" });
+  if (`${user._id}` !== `${comment.author._id}`)
+    return res.status(401).json({ msg: "Not Authorized" });
+  try {
+    const pin = await Pin.findById(pinId)
+      .populate("author")
+      .populate("comments.author");
+    let newComments = pin.comments.filter(
+      com => `${com._id}` !== `${comment._id}`
+    );
+    pin.comments = newComments;
+    await pin.save();
+    return pin;
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
+};

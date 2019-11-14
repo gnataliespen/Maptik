@@ -92,10 +92,13 @@ export default (state, action) => {
       let newPins = state.pins.map(pin =>
         pin._id === payload._id ? payload : pin
       );
+      //Update current pin if necessary
+      let curPin =
+        state.currentPin._id === payload._id ? payload : state.currentPin;
       return {
         ...state,
         pins: newPins,
-        currentPin: payload
+        currentPin: curPin
       };
     }
     default:

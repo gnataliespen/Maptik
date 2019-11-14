@@ -9,7 +9,7 @@ import PinContent from "../Pin/PinContent";
 import { CLEAR_PIN, CLEAR_DRAFT } from "../../state/types";
 import WithModal from "../hoc/WithModal";
 
-const Blog = ({ createPin, deletePin, createComment }) => {
+const Blog = ({ createPin, deletePin, createComment, deleteComment }) => {
   const { state, dispatch } = useContext(Context);
   const { draft, currentPin, currentUser } = state;
   const alert = useAlert();
@@ -59,6 +59,7 @@ const Blog = ({ createPin, deletePin, createComment }) => {
         <WithModal
           pin={currentPin}
           createComment={createComment}
+          deleteComment={deleteComment}
           Component={PinContent}
         />
       ) : (
