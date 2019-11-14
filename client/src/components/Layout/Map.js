@@ -124,6 +124,7 @@ const Map = () => {
           onClick={getUserPosition}
           icon="crosshairs"
           className="mapboxgl-ctrl-group"
+          aria-label="Use my location"
           id="user-pos"
         ></Button>
         <NavigationControl

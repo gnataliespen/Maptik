@@ -42,7 +42,11 @@ const Blog = ({ createPin, deletePin, createComment, deleteComment }) => {
       width="wide"
     >
       <div className="blog-btns">
-        <Button className="close" onClick={clearPinState}>
+        <Button
+          className="close"
+          aria-label="Close pin view"
+          onClick={clearPinState}
+        >
           <Icon name="remove circle" />
         </Button>
         {currentUser &&

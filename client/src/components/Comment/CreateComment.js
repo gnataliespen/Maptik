@@ -82,6 +82,7 @@ const CreateComment = ({ handleCreate, openModal }) => {
           <Button
             type="submit"
             className="close"
+            aria-label="submit comment"
             disabled={!comment.text || !comment.text.trim()}
           >
             <Icon name="send" color="green" />
