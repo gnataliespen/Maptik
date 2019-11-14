@@ -5,12 +5,14 @@ import { format } from "date-fns";
 import CreateComment from "../Comment/CreateComment";
 import Comments from "../Comment/Comments";
 
-const PinContent = ({ pin, createComment }) => {
+const PinContent = ({ pin, createComment, openModal }) => {
   const { title, description, author, createdAt, comments, image } = pin;
 
   return (
     <div className="pin-content">
-      {image && <Image src={image} rounded centered size="small" />}
+      {image && (
+        <Image src={image} rounded centered size="small" onClick={openModal} />
+      )}
       <h2 className="pin-heading">{title}</h2>
       <h3 className="pin-heading">
         <Icon name="user" />
@@ -21,8 +23,8 @@ const PinContent = ({ pin, createComment }) => {
       </h4>
       {description && <p>{description}</p>}
       <Segment>
-        <CreateComment handleCreate={createComment} />
-        <Comments comments={comments} />
+        <CreateComment handleCreate={createComment} openModal={openModal} />
+        <Comments comments={comments} openModal={openModal} />
       </Segment>
     </div>
   );

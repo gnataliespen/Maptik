@@ -13,7 +13,7 @@ const intialForm = {
   preview: ""
 };
 
-const CreatePin = ({ handleCreate }) => {
+const CreatePin = ({ handleCreate, openModal }) => {
   const [form, setForm] = useState(intialForm);
   const [loading, setLoading] = useState(false);
 
@@ -94,7 +94,13 @@ const CreatePin = ({ handleCreate }) => {
             </div>
           </label>
         </div>
-        <Image src={form.preview} rounded centered size="small" />
+        <Image
+          src={form.preview}
+          rounded
+          centered
+          size="small"
+          onClick={openModal}
+        />
         <div style={{ width: "100%" }}>
           <Form.TextArea
             name="description"

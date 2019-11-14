@@ -11,3 +11,4 @@ export const SET_PIN = "SET_PIN";
 export const CLEAR_PIN = "CLEAR_PIN";
 export const DELETE_PIN = "DELETE_PIN";
 export const UPDATE_PIN = "UPDATE_PIN";
+export const SET_IMAGE = "SET_IMAGE";

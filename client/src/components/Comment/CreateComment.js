@@ -7,7 +7,7 @@ import getImgUrl from "../../util/getImgUrl";
 
 const initialComment = { image: null, text: "", preview: "" };
 
-const CreateComment = ({ handleCreate }) => {
+const CreateComment = ({ handleCreate, openModal }) => {
   const [comment, setComment] = useState(initialComment);
   const [loading, setLoading] = useState(false);
 
@@ -62,6 +62,7 @@ const CreateComment = ({ handleCreate }) => {
         centered
         size="tiny"
         className="comment-img"
+        onClick={openModal}
       />
 
       <Form

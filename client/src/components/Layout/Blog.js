@@ -7,6 +7,7 @@ import CreatePin from "../Pin/CreatePin";
 import { Sidebar, Icon, Button } from "semantic-ui-react";
 import PinContent from "../Pin/PinContent";
 import { CLEAR_PIN, CLEAR_DRAFT } from "../../state/types";
+import WithModal from "../hoc/WithModal";
 
 const Blog = ({ createPin, deletePin, createComment }) => {
   const { state, dispatch } = useContext(Context);
@@ -55,9 +56,13 @@ const Blog = ({ createPin, deletePin, createComment }) => {
       </div>
 
       {!draft && currentPin ? (
-        <PinContent pin={currentPin} createComment={createComment} />
+        <WithModal
+          pin={currentPin}
+          createComment={createComment}
+          Component={PinContent}
+        />
       ) : (
-        <CreatePin handleCreate={createPin} />
+        <WithModal handleCreate={createPin} Component={CreatePin} />
       )}
     </Sidebar>
   );
