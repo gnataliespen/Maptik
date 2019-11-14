@@ -20,6 +20,7 @@ import {
   GET_PINS,
   SET_PIN
 } from "../../state/types";
+import WithSocket from "./WithSocket";
 
 import "mapbox-gl/dist/mapbox-gl.css";
 
@@ -29,7 +30,7 @@ const initialViewport = {
   zoom: 13
 };
 
-const Map = () => {
+const Map = ({ createPin }) => {
   const [viewport, setViewport] = useState(initialViewport);
   const { state, dispatch } = useContext(Context);
   //Check if user is on mobile
@@ -149,7 +150,7 @@ const Map = () => {
         )}
         {renderMarkers}
       </ReactMapGl>
-      <Blog />
+      <WithSocket Component={Blog} />
     </div>
   );
 };

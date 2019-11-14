@@ -9,7 +9,7 @@ import PinContent from "../Pin/PinContent";
 import { CLEAR_PIN, CLEAR_DRAFT, DELETE_PIN } from "../../state/types";
 import api from "../../util/apiConnection";
 
-const Blog = () => {
+const Blog = ({ createPin, deletePin, createComment }) => {
   const { state, dispatch } = useContext(Context);
   const { draft, currentPin, currentUser } = state;
   const alert = useAlert();
@@ -52,13 +52,21 @@ const Blog = () => {
           currentPin &&
           currentPin.author &&
           currentUser._id === currentPin.author._id && (
-            <Button color="red" className="delete" onClick={handleDelete}>
+            <Button
+              color="red"
+              className="delete"
+              onClick={() => deletePin(currentPin._id)}
+            >
               Delete Pin
             </Button>
           )}
       </div>
 
-      {!draft && currentPin ? <PinContent pin={currentPin} /> : <CreatePin />}
+      {!draft && currentPin ? (
+        <PinContent pin={currentPin} createComment={createComment} />
+      ) : (
+        <CreatePin handleCreate={createPin} />
+      )}
     </Sidebar>
   );
 };

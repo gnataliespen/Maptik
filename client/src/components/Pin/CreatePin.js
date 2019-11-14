@@ -14,7 +14,7 @@ const intialForm = {
   preview: ""
 };
 
-const CreatePin = () => {
+const CreatePin = ({ handleCreate }) => {
   const [form, setForm] = useState(intialForm);
   const [loading, setLoading] = useState(false);
 
@@ -53,11 +53,8 @@ const CreatePin = () => {
       }
 
       //Post pin and add it to state
-      let newPin = await api.post("/pins/create", pinObj);
+      await handleCreate(pinObj);
       setForm(intialForm);
-      dispatch({ type: CREATE_PIN, payload: newPin.data });
-
-      alert.show("Created pin", { type: "success" });
     } catch (err) {
       alert.show("Failed to create pin", { type: "error" });
     }

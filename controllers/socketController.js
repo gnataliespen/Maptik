@@ -1,62 +1,61 @@
 const Pin = require("../models/Pin");
 const User = require("../models/User");
+const auth = require("../util/auth");
 
-exports.createPin = async () => {
-  const { title, image, description, longitude, latitude } = req.body;
+exports.createPin = async newPin => {
+  const { title, image, description, longitude, latitude, token } = newPin;
+  const user = await auth(token);
   //Intialize new pin obj
-  const newPin = { longitude, latitude, title };
+  const pinObj = { longitude, latitude, title };
   //check for optional properties
-  if (req.user) {
-    try {
-      let user = await User.findOne({ email: req.user.email });
-      newPin.author = user;
-    } catch (err) {
-      console.log(err);
-    }
+  if (user) {
+    pinObj.author = user;
   }
-  if (image) newPin.image = image;
-  if (description) newPin.description = description;
+  if (image) pinObj.image = image;
+  if (description) pinObj.description = description;
   try {
     //Create pin
-    const pin = await Pin.create(newPin);
-    return res.status(200).json(pin);
+    const pin = await Pin.create(pinObj);
+    return pin;
   } catch (err) {
-    res.status(500).json({ msg: "Could not create pin at this time" });
+    console.log(err);
+    return null;
   }
 };
 
-exports.deletePin = async (req, res) => {
+exports.deletePin = async reqObj => {
+  const { id, token } = reqObj;
+  const user = await auth(token);
+  if (!user) return res.status(401).json({ msg: "Not Authorized" });
   try {
-    if (!req.user) return res.status(401).json({ msg: "Not Authorized" });
-    const pin = await Pin.findById(req.params.id);
-    let user = await User.findOne({ email: req.user.email });
+    const pin = await Pin.findById(id);
     if (`${pin.author}` !== `${user._id}`)
       return res.status(401).json({ msg: "Not Authorized" });
     await pin.remove();
-    return res.status(200).json({ msg: "Deleted pin" });
+    return id;
   } catch (err) {
     console.log(err);
-    res.status(500).json({ msg: "Could not delete pin at this time" });
+    return null;
   }
 };
-exports.comment = async (req, res) => {
+exports.comment = async newComment => {
+  const { token, text, pinId } = newComment;
+  const user = await auth(token);
+  const commentObj = { text };
+  if (user) {
+    commentObj.author = user._id;
+  }
   try {
-    const newComment = { text: req.body.comment };
-    if (req.user) {
-      let user = await User.findOne({ email: req.user.email });
-      if (user) {
-        newComment.author = user._id;
-      }
-    }
     const updatedPin = await Pin.findByIdAndUpdate(
-      { _id: req.body.pinId },
-      { $push: { comments: newComment } },
+      { _id: pinId },
+      { $push: { comments: commentObj } },
       { new: true }
     )
       .populate("author")
       .populate("comments.author");
-    res.status(200).json(updatedPin);
+    return updatedPin;
   } catch (err) {
     console.log(err);
+    return null;
   }
 };

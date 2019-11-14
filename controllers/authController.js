@@ -3,16 +3,12 @@ const auth = require("../util/auth");
 
 exports.findOrCreateUser = async (req, res) => {
   const token = req.header("x-auth-token");
-  const googleUser = await auth(token);
-  if (!googleUser) {
+  const user = await auth(token);
+  if (!user) {
     return res.status(401).json({ msg: "Not authorized" });
   }
-  console.log(googleUser);
-  const { name, email, picture } = googleUser;
-  //Check for existing user
-  let user = await User.findOne({ email });
-  //Else create user
-  if (!user) {
+  //if new user create user obj
+  if (user === "new user") {
     user = await User.create({ name, email, picture });
   }
   //Return user info

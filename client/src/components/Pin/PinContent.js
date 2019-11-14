@@ -5,7 +5,7 @@ import { format } from "date-fns";
 import CreateComment from "../Comment/CreateComment";
 import Comments from "../Comment/Comments";
 
-const PinContent = ({ pin }) => {
+const PinContent = ({ pin, createComment }) => {
   const { title, description, author, createdAt, comments, image } = pin;
 
   return (
@@ -21,7 +21,7 @@ const PinContent = ({ pin }) => {
       </h4>
       {description && <p>{description}</p>}
       <Segment>
-        <CreateComment />
+        <CreateComment handleCreate={createComment} />
         <Comments comments={comments} />
       </Segment>
     </div>

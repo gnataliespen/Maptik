@@ -6,7 +6,7 @@ import Context from "../../state/context";
 import api from "../../util/apiConnection";
 import { CREATE_COMMENT } from "../../state/types";
 
-const CreateComment = () => {
+const CreateComment = ({ handleCreate }) => {
   const [comment, setComment] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -21,11 +21,11 @@ const CreateComment = () => {
     event.preventDefault();
     setLoading(true);
     try {
-      let updatedPin = await api.put("/pins/comment", {
-        comment,
+      await handleCreate({
+        text: comment,
         pinId: currentPin._id
       });
-      dispatch({ type: CREATE_COMMENT, payload: updatedPin.data });
+      //dispatch({ type: CREATE_COMMENT, payload: updatedPin.data });
       setComment("");
       alert.show("Posted comment", { type: "success" });
     } catch (err) {

@@ -1,19 +1,35 @@
-import React, { useEffect, lazy, Suspense } from "react";
+import React, { useEffect } from "react";
 import io from "socket.io-client";
-import { Loader } from "semantic-ui-react";
+import Cookies from "js-cookie";
 
-const Map = lazy(() => import("./Map"));
+let socket;
 
-const WithSocket = () => {
+const WithSocket = ({ Component }) => {
   useEffect(() => {
-    let socket = io(":4000");
-    //socket.emit("hello");
-    //socket.on("whats up", () => console.log("nm"));
+    socket = io(":4000");
+    socket.on("new pin", data => console.log(data));
+    socket.on("deleted pin", data => console.log(data));
+    socket.on("updated pin", data => console.log(data));
   }, []);
+
+  const createPin = newPin => {
+    newPin.token = Cookies.get("token");
+    socket.emit("create pin", newPin);
+  };
+  const deletePin = pinId => {
+    let token = Cookies.get("token");
+    socket.emit("delete pin", { token, id: pinId });
+  };
+  const createComment = newComment => {
+    newComment.token = Cookies.get("token");
+    socket.emit("create comment", newComment);
+  };
   return (
-    <Suspense fallback={<Loader active />}>
-      <Map />
-    </Suspense>
+    <Component
+      createPin={createPin}
+      deletePin={deletePin}
+      createComment={createComment}
+    />
   );
 };
 
