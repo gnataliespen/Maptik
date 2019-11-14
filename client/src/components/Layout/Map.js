@@ -11,9 +11,7 @@ import React, {
 } from "react";
 
 import Context from "../../state/Context";
-import Blog from "./Blog";
 import api from "../../util/apiConnection";
-import WithSocket from "../hoc/WithSocket";
 import {
   CREATE_DRAFT,
   UPDATE_DRAFT,
@@ -143,7 +141,6 @@ const Map = () => {
         )}
         {renderMarkers}
       </ReactMapGl>
-      <WithSocket Component={Blog} />
     </div>
   );
 };

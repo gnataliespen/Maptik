@@ -6,6 +6,8 @@ import { Loader } from "semantic-ui-react";
 import Nav from "./components/Layout/Nav";
 import Context from "./state/Context";
 import reducer from "./state/reducer";
+import WithSocket from "./components/hoc/WithSocket";
+import Blog from "./components/Layout/Blog";
 
 import "./css/Style.css";
 
@@ -25,6 +27,7 @@ function App() {
         <Suspense fallback={<Loader active />}>
           <Map />
         </Suspense>
+        <WithSocket Component={Blog} />
       </AlertProvider>
     </Context.Provider>
   );
