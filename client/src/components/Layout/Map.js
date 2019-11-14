@@ -1,7 +1,7 @@
-import ReactMapGl, { NavigationControl, Marker } from "react-map-gl";
-import { Icon } from "semantic-ui-react";
+import { Icon, Button } from "semantic-ui-react";
 import { differenceInMinutes } from "date-fns";
 import useMedia from "use-media";
+import ReactMapGl, { NavigationControl, Marker } from "react-map-gl";
 import React, {
   useState,
   useEffect,
@@ -35,25 +35,6 @@ const Map = () => {
   //Check if user is on mobile
   const mobile = useMedia({ maxWidth: 650 });
 
-  /*useEffect(() => {
-    const getUserPosition = async () => {
-      console.log("hey");
-      //If geolocation is available
-      if ("geolocation" in navigator) {
-        //Get user position and move the Viewport to it
-        navigator.geolocation.getCurrentPosition(position => {
-          const { latitude, longitude } = position.coords;
-          setViewport({
-            ...viewport,
-            latitude,
-            longitude
-          });
-        });
-      }
-    };
-    getUserPosition();
-  }, []);*/
-
   useEffect(() => {
     const getPins = async () => {
       const pins = await api.get("/pins");
@@ -62,9 +43,9 @@ const Map = () => {
     getPins();
   }, [dispatch]);
 
-  const handleMapClick = ({ lngLat, leftButton }) => {
+  const handleMapClick = ({ lngLat, leftButton, target }) => {
     //If the user left clicks on the map start a pin draft
-    if (!leftButton) return;
+    if (!leftButton || target.className === "crosshairs icon") return;
     const [longitude, latitude] = lngLat;
 
     if (!state.draft) {
@@ -78,6 +59,21 @@ const Map = () => {
     const date = new Date(pin.createdAt);
     const isNew = differenceInMinutes(Date.now(), Number(date)) <= 30;
     return isNew ? "green" : "purple";
+  };
+
+  const getUserPosition = async () => {
+    //If geolocation is available
+    if ("geolocation" in navigator) {
+      //Get user position and move the Viewport to it
+      navigator.geolocation.getCurrentPosition(position => {
+        const { latitude, longitude } = position.coords;
+        setViewport({
+          ...viewport,
+          latitude,
+          longitude
+        });
+      });
+    }
   };
 
   //Set currently select pin
@@ -122,11 +118,16 @@ const Map = () => {
         mapStyle="mapbox://styles/mapbox/streets-v9"
         mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_KEY}
         onViewportChange={newViewport => setViewport(newViewport)}
-        captureClick={true}
         scrollZoom={!mobile}
         onClick={handleMapClick}
         {...viewport}
       >
+        <Button
+          onClick={getUserPosition}
+          icon="crosshairs"
+          className="mapboxgl-ctrl-group"
+          id="user-pos"
+        ></Button>
         <NavigationControl
           onViewportChange={newViewport => setViewport(newViewport)}
         />

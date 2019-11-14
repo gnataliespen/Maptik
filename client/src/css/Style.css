@@ -111,6 +111,14 @@ h2 {
   margin: 0;
   font-size: 1.25rem;
 }
+#user-pos {
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  background-color: white;
+  color: black;
+}
 @media (max-width: 650px) {
   div.form,
   div.pin-content {
