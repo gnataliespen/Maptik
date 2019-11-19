@@ -77,15 +77,12 @@ const Map = () => {
   //Set currently select pin
   const setPin = useCallback(
     pin => {
-      console.log("setpin");
-
       dispatch({ type: SET_PIN, payload: pin });
     },
     [dispatch]
   );
 
   const renderMarkers = useMemo(() => {
-    console.log("markers");
     return state.pins.map(pin => (
       <Marker
         key={pin._id}

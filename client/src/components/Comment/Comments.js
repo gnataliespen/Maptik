@@ -17,14 +17,12 @@ const Comments = ({ comments, openModal, deleteComment }) => {
 
   const handleDelete = useCallback(
     comment => {
-      console.log("dd");
       deleteComment({ comment, pinId: currentPin._id });
     },
     [currentPin._id, deleteComment]
   );
 
   const renderComments = useMemo(() => {
-    console.log("comments");
     return comments.map((comment, i) => (
       <Comment key={i}>
         <Divider />
