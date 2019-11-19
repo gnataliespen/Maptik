@@ -4,10 +4,10 @@
 
 Maptik is a live geolocation app where users can 'pin' different locations on the map and share their own content with other users in realtime.
 
-##User Stories
+## User Stories
 Maptik is an app for users to share neighborhood based content in real time. My hope is that this app will be a fun social site that helps users get more involved in there communities.
 
-##Technologies used
+## Technologies used
 Built on top of a express server
 
 Implemented useContext and useReducer Hooks for global state management instead of Redux
