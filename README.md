@@ -1,5 +1,6 @@
 # Maptik
-Backend - https://maptik.herokuapp.com/pins   Frontend - https://inspiring-euclid-74d31e.netlify.com/
+Backend - https://maptik.herokuapp.com/pins   
+Frontend - https://inspiring-euclid-74d31e.netlify.com/
 
 ## Introduction
 
