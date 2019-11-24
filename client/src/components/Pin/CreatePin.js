@@ -110,12 +110,12 @@ const CreatePin = ({ handleCreate, openModal }) => {
           />
         </div>
         <div className="btns">
-          <Button color="purple" onClick={clearDraft}>
+          <Button className="discard-btn" onClick={clearDraft}>
             <Icon name="trash" size="small" /> Discard
           </Button>
           <Button
             type="submit"
-            color="green"
+            className="create-btn"
             onClick={handleSubmit}
             disabled={!form.title.trim()}
           >

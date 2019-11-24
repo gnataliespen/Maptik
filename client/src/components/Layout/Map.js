@@ -56,7 +56,7 @@ const Map = () => {
     //Highlight pins created in the last 30 minutes
     const date = new Date(pin.createdAt);
     const isNew = differenceInMinutes(Date.now(), Number(date)) <= 30;
-    return isNew ? "green" : "purple";
+    return isNew ? "pin new-pin" : "pin";
   };
 
   const getUserPosition = async () => {
@@ -96,8 +96,7 @@ const Map = () => {
         <Icon
           name="marker"
           size="big"
-          color={highlightNew(pin)}
-          className="pin"
+          className={highlightNew(pin)}
           onClick={() => setPin(pin)}
         />
       </Marker>
