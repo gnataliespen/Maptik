@@ -9,7 +9,7 @@ let socket;
 const WithSocket = ({ Component }) => {
   const { dispatch } = useContext(Context);
   useEffect(() => {
-    socket = io(":4000");
+    socket = io("https://maptik.herokuapp.com");
     //On pin change the backend will emit one of these events with the new pin data which is used to update state
     socket.on("new pin", data => {
       dispatch({ type: NEW_PIN, payload: data });
