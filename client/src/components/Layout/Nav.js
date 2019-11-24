@@ -18,8 +18,8 @@ const Nav = () => {
   return (
     <Menu id="menu" inverted>
       <Menu.Item header id="primary">
-        <Icon name="map" size="large" color="yellow" />
-        <h1 style={verySmall}>Maptic</h1>
+        <Icon name="map" size="large" />
+        <h1 style={verySmall}>Maptik</h1>
       </Menu.Item>
       {/*If authenticated show basic profile info*/}
       {isAuth ? (
@@ -52,7 +52,7 @@ const Nav = () => {
         position={isAuth ? null : "right"}
         style={mobile}
       >
-        <Icon name="location arrow" color="yellow" />
+        <Icon name="location arrow" />
         <p className="login-body"> Click on the map to get started</p>
       </Menu.Item>
     </Menu>

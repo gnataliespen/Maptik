@@ -1,8 +1,9 @@
 #menu {
-  background: purple;
+  background: #504658;
   border-radius: 0px;
   margin: 0;
 }
+
 .mapboxgl-ctrl-group {
   width: 30px;
 }
@@ -75,6 +76,12 @@ input[type="file"] {
 .ui.button {
   margin: 0;
 }
+.create-btn {
+  background-color: #a3f7bf !important;
+}
+.discard-btn {
+  background-color: #f6ad7b !important;
+}
 .mapboxgl-map,
 div.overlays {
   z-index: 1 !important;
@@ -85,6 +92,10 @@ div.overlays {
 }
 i.icon.pin {
   cursor: pointer;
+  color: #29a19c;
+}
+.new-pin {
+  color: #f6ad7b !important;
 }
 .pin-content {
   display: flex;
