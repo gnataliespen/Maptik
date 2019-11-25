@@ -7,5 +7,6 @@ export default createContext({
   pins: [],
   currentPin: null,
   alerts: [],
-  modal: ""
+  modal: "",
+  pinsLoaded: false
 });

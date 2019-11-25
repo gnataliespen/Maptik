@@ -24,7 +24,7 @@ function App() {
     <Context.Provider value={{ state, dispatch }}>
       <AlertProvider template={AlertTemplate} {...options}>
         <Nav />
-        <Suspense fallback={<Loader active />}>
+        <Suspense fallback={<Loader active>Loading map...</Loader>}>
           <Map />
         </Suspense>
         <WithSocket Component={Blog} />

@@ -1,4 +1,4 @@
-import { Icon, Button } from "semantic-ui-react";
+import { Icon, Button, Loader } from "semantic-ui-react";
 import { differenceInMinutes } from "date-fns";
 import useMedia from "use-media";
 import ReactMapGl, { NavigationControl, Marker } from "react-map-gl";
@@ -29,6 +29,7 @@ const initialViewport = {
 
 const Map = () => {
   const [viewport, setViewport] = useState(initialViewport);
+
   const { state, dispatch } = useContext(Context);
   //Check if user is on mobile
   const mobile = useMedia({ maxWidth: 650 });
@@ -102,6 +103,10 @@ const Map = () => {
       </Marker>
     ));
   }, [state.pins, setPin]);
+
+  if (!state.pinsLoaded) {
+    return <Loader active>Retrieving pins...</Loader>;
+  }
 
   return (
     <div className="map-container">
