@@ -62,6 +62,7 @@ export default (state, action) => {
     case GET_PINS: {
       return {
         ...state,
+        pinsLoaded: true,
         pins: [...payload]
       };
     }
